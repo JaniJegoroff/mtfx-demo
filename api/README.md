@@ -24,3 +24,4 @@ Import JSON file in Postman and run tests in the collection.
 3. Additional tests for US and FR postcodes for AC-4.
 4. Additional test for invalid postcode.
 5. Any additional environments where tests should be run?
+6. Contract testing (pact)?
