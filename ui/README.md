@@ -27,7 +27,7 @@ npm run test
 
 ```
 Lots of old, unneeded and deprecated dependencies in the base project.
-Node gyp build error with the latest node version (19.1.0).
+Node gyp build error (when installing dependencies) with the latest node version (19.1.0).
 
 Workaround:
 Downgrade node to LTS version (v18.12.1)
