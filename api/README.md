@@ -11,6 +11,12 @@ Postman
 Version 10.1.2 (10.1.2)
 ```
 
+### Run tests
+
+```
+Import JSON file in Postman and run tests in the collection.
+```
+
 ### Additional tests/questions/improvements
 
 1. I would add schema validation to AC-1 instead of validating few selected fields.
