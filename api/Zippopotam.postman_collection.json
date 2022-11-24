@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "24c0e7d9-d038-416a-9705-5b8c0bc9f280",
+		"name": "Zippopotam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Valid country and postcode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test('Response should be valid with a body', () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"// AC-1",
+							"pm.test('Response data types should be as expected', () => {",
+							"    pm.expect(jsonData['post code']).to.be.a('string');",
+							"    pm.expect(jsonData.country).to.be.a('string');",
+							"    pm.expect(jsonData['country abbreviation']).to.be.a('string');",
+							"    pm.expect(jsonData.places).to.be.an('array');",
+							"});",
+							"",
+							"// AC-2",
+							"pm.test('Response should return correct postcode', () => {",
+							"    const postCode = pm.collectionVariables.get('postCode');",
+							"    pm.expect(jsonData['post code']).to.deep.equal(postCode);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/{{countryCode}}/{{postCode}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{countryCode}}",
+						"{{postCode}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Valid country and postcode (GB/GU22)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"const placesCount = 4;",
+							"",
+							"// AC-4",
+							"pm.test('Response should return 4 places', () => {",
+							"    pm.expect(jsonData.places.length).to.deep.equal(placesCount);",
+							"});",
+							"",
+							"// AC-4",
+							"pm.test('All places should have state as England', () => {",
+							"    const state = 'England';",
+							"",
+							"    for(let i=0; i<placesCount; i++) {",
+							"        pm.expect(jsonData.places[i].state).to.deep.equal(state);",
+							"    }",
+							"});",
+							"",
+							"// AC-4",
+							"pm.test('All places should have expected properties', () => {",
+							"    for(let i=0; i<placesCount; i++) {",
+							"        pm.expect(jsonData.places[i]).to.haveOwnProperty('place name');",
+							"        pm.expect(jsonData.places[i]).to.haveOwnProperty('longitude');",
+							"        pm.expect(jsonData.places[i]).to.haveOwnProperty('state');",
+							"        pm.expect(jsonData.places[i]).to.haveOwnProperty('state abbreviation');",
+							"        pm.expect(jsonData.places[i]).to.haveOwnProperty('latitude');",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/GB/GU22",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"GB",
+						"GU22"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid country code",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"// AC-3",
+							"pm.test('Response status code should be Not Found', () => {",
+							"    pm.response.to.be.notFound;",
+							"});",
+							"",
+							"// AC-3",
+							"pm.test('Response should return no data', () => {",
+							"    pm.expect(jsonData).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/{{invalidCountryCode}}/{{postCode}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{invalidCountryCode}}",
+						"{{postCode}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://api.zippopotam.us",
+			"type": "default"
+		},
+		{
+			"key": "countryCode",
+			"value": "GB",
+			"type": "default"
+		},
+		{
+			"key": "postCode",
+			"value": "E15",
+			"type": "default"
+		},
+		{
+			"key": "invalidCountryCode",
+			"value": "XXX",
+			"type": "default"
+		}
+	]
+}
